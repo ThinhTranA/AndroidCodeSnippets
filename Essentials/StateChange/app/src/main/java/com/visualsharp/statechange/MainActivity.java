@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "StateChange";
@@ -90,11 +91,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        final EditText editText = findViewById(R.id.editText);
+        CharSequence userText = editText.getText();
+        outState.putCharSequence("savedText", userText);
+
         Log.i(TAG, "onSaveInstanceState");
     }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
+        final EditText editText = findViewById(R.id.editText);
+        CharSequence userText = savedInstanceState.getCharSequence("savedText");
+        editText.setText(userText);
         Log.i(TAG, "onRestoreInstanceState");
     }
+
 }
