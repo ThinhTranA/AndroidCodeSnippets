@@ -1,5 +1,6 @@
 package com.visualsharp.viewmodeldemo.ui.main;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -16,6 +17,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.visualsharp.viewmodeldemo.R;
+
+import java.util.Observable;
+
+import static android.os.Build.VERSION_CODES.O;
 
 public class MainFragment extends Fragment {
 
@@ -44,7 +49,15 @@ public class MainFragment extends Fragment {
         resultText = getView().findViewById(R.id.resultText);
         convertButton = getView().findViewById(R.id.convertButton);
 
-        resultText.setText(mViewModel.getResult().toString());
+        final Observer<Float> resultObserver = new Observer<Float>() {
+            @Override
+            public void onChanged(Float result) {
+                resultText.setText(result.toString());
+            }
+        };
+
+        mViewModel.getResult().observe(this, resultObserver);
+
 
         convertButton.setOnClickListener(new View.OnClickListener(){
             @Override
